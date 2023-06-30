@@ -3,13 +3,9 @@ package com.arts.entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
-
-import static org.hibernate.query.results.Builders.fetch;
 
 @Entity
 @Data
@@ -43,12 +39,10 @@ public class Author implements Serializable{
 	private Country originCountry;
 
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "art_author",
-			//uniqueConstraints = @UniqueConstraint(columnNames = {"art_id","author_id"}),
-
-			joinColumns = @JoinColumn(name = "art_id"),
-			inverseJoinColumns = @JoinColumn(name = "author_id"))
+			joinColumns = {@JoinColumn(name = "art_id")},
+			inverseJoinColumns = {@JoinColumn(name = "author_id")})
    @JsonIgnoreProperties(value = "authors")
 	private List<Art> arts;
 }

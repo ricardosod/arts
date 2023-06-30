@@ -48,6 +48,7 @@ public class AuthorController {
 			if (author.getOriginCountry().getId() == null) {
 				author.setOriginCountry(authorService.countryExists(author.getOriginCountry().getCountryName()));
 			}
+			
 			authorResposta = authorService.saveAuthor(author);
 		} catch (AuthorException e) {
 

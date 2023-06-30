@@ -3,6 +3,7 @@ package com.arts.entities;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -31,7 +32,8 @@ public class Art {
 	
 	
 
-	@ManyToMany(mappedBy = "arts")
+	@ManyToMany(mappedBy = "arts", fetch = FetchType.EAGER)
+	@JsonIgnoreProperties(value = "arts")
 	private List<Author> authors;
 
 
