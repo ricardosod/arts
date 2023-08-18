@@ -204,4 +204,15 @@ insert into Obras (nomeObra, descricao, dataPublicacao, idAutor) values
 ;
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+select *
+from art a1_0
+left join (art_author a2_0
+join author a2_1
+on a2_1.id_author=a2_0.author_id)
+on a1_0.id_art=a2_0.art_id
+left join country o1_0
+on o1_0.id_country=a2_1.country_origin
+where a1_0.id_art=?
+Hibernate: select a1_0.author_id,a1_1.id_art,a1_1.date_exposition,a1_1.date_publication,a1_1.art_description,a1_1.art_name from art_author a1_0 join art a1_1 on a1_1.id_art=a1_0.art_id where a1_0.author_id=?
+
 

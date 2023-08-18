@@ -1,23 +1,21 @@
 package com.arts.dto;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Optional;
-
-import com.arts.entities.Art;
 import com.arts.entities.Author;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-public class AuthorDTO  implements Serializable {
+import java.io.Serializable;
+import java.util.List;
+
+public class AuthorDTO2 implements Serializable {
 
 	private String name;
 	private String email;
 
-	public AuthorDTO() {
+	public AuthorDTO2() {
 
 	}
 
-	public AuthorDTO(String name, String email){
+	public AuthorDTO2(String name, String email){
 
 		this.name = name;
 
@@ -25,14 +23,14 @@ public class AuthorDTO  implements Serializable {
 
 	}
 
-	public AuthorDTO(Author author) {
+	public AuthorDTO2(Author author) {
 
 		name = author.getName();
 		email = author.getEmail();
 
 	}
 
-	public AuthorDTO(Object obj) {
+	public AuthorDTO2(Object obj) {
 	}
 
 	public String getName() {
@@ -50,25 +48,23 @@ public class AuthorDTO  implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+@JsonIgnoreProperties({"author"})
+ private ArtDTO2 art;
 
-
-	@JsonIgnoreProperties({"author"})
-	private List<ArtDTO> arts;
-
-	public List<ArtDTO> getArts() {
-		return arts;
+	public ArtDTO2 getArt() {
+		return art;
 	}
 
-	public void setArts(List<ArtDTO> arts) {
-		this.arts = arts;
+	public void setArt(ArtDTO2 art) {
+		this.art = art;
 	}
-
 	/*@Override
 	public String toString() {
-		return "AuthorDTO{" +
-				"name='" + name + '\'' +
-				", email='" + email + '\'' +
+		return
+				"Name = '" + name + '\'' +
+				", Email = '" + email + '\'' +
 				'}';
 	}*/
+
 
 }

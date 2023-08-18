@@ -1,46 +1,62 @@
 package com.arts.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.arts.dto.AuthorDTO2;
+import com.arts.service.ArtService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.arts.dto.AuthorDTO;
 import com.arts.entities.Author;
 import com.arts.exception.AuthorException;
 import com.arts.service.AuthorService;
 
+
+@Slf4j
 @RestController
 @RequestMapping(value = "/author")
 public class AuthorController {
 
 	private AuthorService authorService;
-
-	public AuthorController(AuthorService authorService) {
+	private ArtService artService;
+	public AuthorController(AuthorService authorService, ArtService artService) {
 
 		this.authorService = authorService;
+		this.artService = artService;
 	}
 
 	@GetMapping
-	public List<Author> findAll() {
+	public ResponseEntity<List<AuthorDTO>> findAll(@RequestParam(value = "author", defaultValue = "0") Long id_author) {
 		List<Author> result = authorService.findAll();
-		return result;
+		List<AuthorDTO> dtoList = result.stream().map(x -> new AuthorDTO(x)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(dtoList);
+
 	}
 
 	@GetMapping(value = "/{id}")
-	public AuthorDTO findById(@PathVariable Long id) {
-		return authorService.findBYId(id);
+	public AuthorDTO findById(@PathVariable Long id){
+		AuthorDTO result = authorService.findById(id) ;
+	return  result;
+	}
+		@GetMapping(value = "/{id}/art")
+	public AuthorDTO findAllArtByAuthorId(@PathVariable Long id){
+		AuthorDTO result =authorService.findAllArtByAuthorId(id);
+		return result;
 	}
 
-	@PostMapping
+	@GetMapping(value = "/{id}/art/{id_art}")
+	public AuthorDTO2 findAuthorByIdAndArtId(@PathVariable Long id, @PathVariable Long id_art){
+		AuthorDTO2 result = authorService.findAuthorAndArtById(id, id_art);
+		log.info("Buscando Autor e Arte por Id , Response: {}, Service: {}", result.toString(), AuthorController.class );
+		return  result;
+	}
+
+
+		@PostMapping
 	public ResponseEntity<?> insert(@RequestBody Author author) {
 
 		Author authorResposta = null;
@@ -59,10 +75,15 @@ public class AuthorController {
 
 	}
 
-	@PutMapping("/{id}")
+	/*@PutMapping("/{id}")
 	public Author updateAuthor(@PathVariable Long id, @RequestBody Author author) {
 		Author result = authorService.updateAuthor(id, author);
 		return result;
+	}*/
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updateAuthor(@PathVariable Long id, @RequestBody Author author) throws AuthorException {
+           Author newauthor = authorService.updateAuthor(id, author);
+		   return ResponseEntity.ok().body(new AuthorDTO(newauthor));
 	}
 
 	@DeleteMapping("/{id}")

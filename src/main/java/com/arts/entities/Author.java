@@ -3,6 +3,10 @@ package com.arts.entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
+import com.arts.dto.AuthorDTO;
+import com.arts.dto.AuthorDTO2;
+import com.arts.dto.CountryDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -41,10 +45,13 @@ public class Author implements Serializable{
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "art_author",
-			joinColumns = {@JoinColumn(name = "art_id")},
-			inverseJoinColumns = {@JoinColumn(name = "author_id")})
+			joinColumns = {@JoinColumn(name = "author_id")},
+			inverseJoinColumns = {@JoinColumn(name = "art_id")})
    @JsonIgnoreProperties(value = "authors")
 	private List<Art> arts;
+
+
+
 }
 	
 
