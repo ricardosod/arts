@@ -2,6 +2,7 @@ package com.arts.dto;
 
 import com.arts.entities.Author;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 import java.util.List;
@@ -49,7 +50,9 @@ public class AuthorDTO2 implements Serializable {
 		this.email = email;
 	}
 @JsonIgnoreProperties({"author"})
+@JsonInclude(value= JsonInclude.Include.NON_EMPTY, content= JsonInclude.Include.NON_NULL)
  private ArtDTO2 art;
+
 
 	public ArtDTO2 getArt() {
 		return art;
@@ -58,13 +61,14 @@ public class AuthorDTO2 implements Serializable {
 	public void setArt(ArtDTO2 art) {
 		this.art = art;
 	}
-	/*@Override
+
+
+
+	/* @Override
 	public String toString() {
-		return
-				"Name = '" + name + '\'' +
-				", Email = '" + email + '\'' +
+		return "AuthorDTO2{" +
+				"name='" + name + '\'' +
+				", email='" + email + '\'' +
 				'}';
 	}*/
-
-
 }

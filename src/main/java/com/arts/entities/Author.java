@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import com.arts.dto.AuthorDTO;
-import com.arts.dto.AuthorDTO2;
-import com.arts.dto.CountryDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;

@@ -2,6 +2,7 @@ package com.arts.dto;
 
 
 import com.arts.entities.Art;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -50,7 +51,9 @@ public class ArtDTO implements Serializable {
 
 
 
+    @JsonIgnoreProperties({"arts"})
     private List<AuthorDTO> author;
+
 
     public List<AuthorDTO> getAuthor() {
         return author;
@@ -60,12 +63,11 @@ public class ArtDTO implements Serializable {
         this.author = author;
     }
 
-   /*@Override
+   @Override
 	public String toString() {
 		return "ArtDTO{" +
 				"name='" + name + '\'' +
 				", description='" + description + '\'' +
-				//", author=" + author +
 				'}';
-	}*/
+	}
 }

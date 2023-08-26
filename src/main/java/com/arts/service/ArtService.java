@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import com.arts.dto.ArtDTO;
 import com.arts.dto.ArtDTO2;
@@ -65,23 +64,23 @@ public class ArtService {
 		return  artDTO2;
 	}
 
-        public ArtDTO2 findAllAuthorByArtId(Long id){
+        public ArtDTO findAllAuthorByArtId(Long id){
 
 		Art result = artRepository.findById(id).get();
-		ArtDTO2 artDTO2 = new ArtDTO2();
-		artDTO2.setName(result.getName());
-		artDTO2.setDescription(result.getDescription());
-		List<AuthorDTO2> autor = new ArrayList<>();
+		ArtDTO artDTO = new ArtDTO();
+		artDTO.setName(result.getName());
+		artDTO.setDescription(result.getDescription());
+		List<AuthorDTO> autor = new ArrayList<>();
 		result.getAuthors().forEach(author -> {
-			AuthorDTO2 authorDTO2 = new AuthorDTO2();
-			authorDTO2.setName(author.getName());
-			authorDTO2.setEmail(author.getEmail());
-			System.out.println("++++++++++++++++++++++++" + authorDTO2);
-			autor.add(authorDTO2);
+			AuthorDTO authorDTO = new AuthorDTO();
+			authorDTO.setName(author.getName());
+			authorDTO.setEmail(author.getEmail());
+			System.out.println("++++++++++++++++++++++++" + authorDTO);
+			autor.add(authorDTO);
 			System.out.println("-------------------------" + autor.toString());
 		});
-			artDTO2.setAuthor(autor.get(0));
-		    return artDTO2;
+			artDTO.setAuthor(autor);
+		    return artDTO;
 		}
 
 	public Art saveArt(Art art) throws ArtException {

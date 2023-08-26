@@ -9,10 +9,19 @@ import java.util.List;
 
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
+import com.arts.converter.AuthorDTOInput;
+import com.arts.converter.AuthorDtoOutput;
 import com.arts.dto.*;
-import org.springframework.beans.BeanUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +31,18 @@ import com.arts.entities.Country;
 import com.arts.exception.AuthorException;
 import com.arts.repository.AuthorRepository;
 
-
+@Slf4j
 @Service
 public class AuthorService {
 
 	
 private AuthorRepository authorRepository;
 private CountryService countryService;
+@Autowired
+private AuthorDTOInput authorDTOInput;
 
+	@Autowired
+	private AuthorDtoOutput authorDtoOutput;
 
 
 	public AuthorService(AuthorRepository authorRepository, CountryService countryService) {
@@ -38,16 +51,18 @@ private CountryService countryService;
 	}
 		
 
-	public List<Author> findAll(){
+	public List<AuthorDTONoList> findAll(){
 		List<Author> result =  authorRepository.findAll();
-		return result;
+		List<AuthorDTONoList> dtoList = result.stream().map(AuthorDTONoList::new).collect(Collectors.toList());
+		return dtoList;
 	}
 
-
-	public AuthorDTO findById(Long id_author){
-		Author autor = authorRepository.findById(id_author).get();
-		AuthorDTO dto = new AuthorDTO(autor);
+		public AuthorDTONoList findAuthorById(Long id){
+		Author autor = authorRepository.findById(id).get();
+			AuthorDTONoList dto = new AuthorDTONoList(autor);
 		return  dto;
+
+
 	}
 
 	public AuthorDTO2 findAuthorAndArtById(Long id, Long id_art) {
@@ -132,41 +147,22 @@ private CountryService countryService;
 				}
 			return country;
 		}
-public Author updateAuthor(Long id, Author author) throws AuthorException {
- Author autorup = authorRepository.findById(id).get();
+           public AuthorDTO2 updateAuthor(Long id, AuthorDTO2 authorDTO2){
+           Author updateAuthor = authorRepository.findById(id).get();
+		   authorDTOInput.copyToEntity(authorDTO2, updateAuthor);
+           return authorDtoOutput.toDTO( authorRepository.save(updateAuthor));
+
+	}
 
 
-		autorup.setName(author.getName());
-		autorup.setArts(author.getArts());
-		autorup.setSex(author.getSex());
-		autorup.setBirth(author.getBirth());
-		autorup.setCpf(autorup.getCpf());
-		autorup.setId(author.getId());
-		autorup.setEmail(author.getEmail());
 
-		return  autorup = authorRepository.save(autorup);
-}
-
-		/*public Author updateAuthor(Long id, Author author) {
-			Author result = authorRepository.findById(id).get();
-
-			result.setName(author.getName());
-			result.setId(author.getId());
-			result.setEmail(author.getEmail());
-			result.setCpf(author.getCpf());
-			result.setBirth(author.getBirth());
-			result.setArts(author.getArts());
-			result.setSex(author.getSex());
-			result.setOriginCountry(author.getOriginCountry());
-
-			return result;
-		}*/
 		/*public Author updateAuthor(Long id, Author author) {
 			Optional<Author> authorr = authorRepository.findById(id);
 			authorr.get().getName();
 			return authorRepository.save(author);
 		}*/
-		
+
+
 
 		public void deleteAuthor(Long id) {
 			Optional<Author>autord = authorRepository.findById(id);
@@ -174,6 +170,9 @@ public Author updateAuthor(Long id, Author author) throws AuthorException {
 			authorRepository.deleteById(id);
 			
 		}
+
+
+
 
 }
 

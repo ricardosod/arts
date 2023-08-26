@@ -54,8 +54,8 @@ public class ArtController {
 	}
 
 	@GetMapping(value  = "/{id}/author")
-	public ArtDTO2 findAllAuthorByArtId(@PathVariable Long id){
-		ArtDTO2 result = artService.findAllAuthorByArtId(id);
+	public ArtDTO findAllAuthorByArtId(@PathVariable Long id){
+		ArtDTO result = artService.findAllAuthorByArtId(id);
 		return result;
 
 	}
