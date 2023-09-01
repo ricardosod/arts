@@ -42,36 +42,9 @@ public class AuthorDTO  implements Serializable {
 	public AuthorDTO(Object obj) {
 	}
 
-	/*public void setName(String name) {
-		this.name = name;
-	}*/
-
-	/*public void setEmail(String email) {
-		//this.email = email;
-	}*/
-
-
-
+	@JsonIgnoreProperties({"author"})
 	private List<ArtDTO> arts;
 
 
-	/*public void setArts(List<ArtDTO> arts) {
-		this.arts = arts;
-	}*/
-
-	/*@Override
-	public String toString() {
-		return "AuthorDTO{" +
-				"name='" + name + '\'' +
-				", email='" + email + '\'' +
-				'}';
-	}*/
-
-	/*public String ignoreProperties (AuthorDTO authorDTO) throws JsonProcessingException {
-		ObjectMapper objectMapper = new ObjectMapper();
-		SimpleBeanPropertyFilter filter =  SimpleBeanPropertyFilter.serializeAllExcept("arts");
-		FilterProvider filters = new SimpleFilterProvider().addFilter("myFilter", filter);
-		String dtoAsString = objectMapper.writer(filters).writeValueAsString(authorDTO);
-		return dtoAsString;
-	}*/
+	
 }

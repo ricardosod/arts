@@ -63,12 +63,4 @@ public class AuthorDTO2 implements Serializable {
 	}
 
 
-
-	/* @Override
-	public String toString() {
-		return "AuthorDTO2{" +
-				"name='" + name + '\'' +
-				", email='" + email + '\'' +
-				'}';
-	}*/
 }

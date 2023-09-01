@@ -5,15 +5,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
 
 import com.arts.dto.ArtDTO;
 import com.arts.dto.ArtDTO2;
+import com.arts.dto.ArtDTONoList;
 import com.arts.dto.AuthorDTO;
 import com.arts.dto.AuthorDTO2;
-import com.arts.entities.Author;
-import org.springframework.stereotype.Service;
-
+import com.arts.dto.AuthorDTONoList;
 import com.arts.entities.Art;
+import com.arts.entities.Author;
 import com.arts.exception.ArtException;
 import com.arts.repository.ArtRepository;
 
@@ -31,21 +34,31 @@ public class ArtService {
 	}
 	
 
-	public List<Art> findAll(){
+	/*public List<Art> findAll(){
 		List<Art> result = artRepository.findAll();
 		return result;
-	}
-	
-	/*public Optional<Art> findById(Long id_art) {
-		Optional<Art> result  = artRepository.findById(id_art);
-		return result;
-
 	}*/
-	public ArtDTO findById(Long id_art){
+
+	public List<ArtDTONoList> findAll(){
+		List<Art> result =  artRepository.findAll();
+		List<ArtDTONoList> dtoList = result.stream().map(ArtDTONoList::new).collect(Collectors.toList());
+		return dtoList;
+	}
+
+		public ArtDTONoList findArtById(Long id){
+		Art art = artRepository.findById(id).get();
+			ArtDTONoList dto = new ArtDTONoList(art);
+		return  dto;
+
+
+	}
+
+	
+	/*public ArtDTO findById(Long id_art){
 		Art arte = artRepository.findById(id_art).get();
 		ArtDTO dto = new ArtDTO(arte);
 		return dto;
-	}
+	}*/
 		public  ArtDTO2 findArtdAndAuthorId(Long id, Long id_author){
 		Art artte = artRepository.findArtByIdAndAuthorsBy_Id(id, id_author);
 		ArtDTO2 artDTO2 = new ArtDTO2();

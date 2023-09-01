@@ -4,6 +4,7 @@ package com.arts.dto;
 
 import com.arts.entities.Art;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 import java.util.List;
@@ -50,6 +51,8 @@ private String name;
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	
      @JsonIgnoreProperties({"art"})
       private AuthorDTO2 author;
 
